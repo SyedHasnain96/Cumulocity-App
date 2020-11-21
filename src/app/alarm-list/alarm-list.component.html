@@ -1,0 +1,87 @@
+<div class="container">
+    <div class="row">
+      <div class="col-lg-4">
+        <h3>Alarms</h3>
+      </div>
+    </div>
+    <div class="row" [formGroup]="filterForm">
+      <div class="col-lg-2">
+        <label>Severity</label>
+        <select formControlName="severity" class="form-control">    
+          <option value = "">All</option>
+          <option value = "CRITICAL">Critical</option>
+          <option value = "MAJOR">Major</option>
+          <option value = "MINOR">Minor</option>
+          <option value = "WARNING">Warning</option>
+        </select>
+      </div>
+      <div class="col-lg-2">
+        <label>Status</label>
+        <select formControlName="status" class="form-control">
+          <option value = "">All</option>
+          <option value = "ACTIVE">Active</option>
+          <option value = "INACTIVE">Inactive</option>
+        </select> 
+      </div>
+      <div class="col-lg-2">
+        <label>From Date</label>
+        <input formControlName="fromDate"
+        class="form-control"
+        placeholder="dd.mm.yyyy">
+      </div>
+      <div class="col-lg-2">
+        <label>To Date</label>
+        <input formControlName="toDate"
+        class="form-control"
+        placeholder="dd.mm.yyyy">
+      </div>
+      <div class="col-lg-2">
+        <div style="visibility: hidden;">Filter</div>
+        <button (click)="applyFilter()" class="btn btn-primary">
+          Filter
+        </button>
+      </div>
+      <br>
+      <br>
+      <br>
+    </div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Description</th>
+          <th scope="col">Severity</th>
+          <th scope="col">Status</th>
+          <th scope="col">Creation Time</th>
+        </tr>
+      </thead>
+      <tbody>
+    
+        <tr *ngFor="let alarm of this.alarmsCollection;">
+          <td>{{alarm.text}}</td>
+          <td>{{alarm.severity}}</td>
+          <td>{{alarm.status}}</td>
+          <td>{{alarm.creationTime}}</td>
+        </tr>
+
+      </tbody>
+    </table>
+    <hr>
+    <div class="row justify-content-around">
+      <div class="col-lg-3"><button (click)=getPage(-1) [disabled]="previousDisable()"
+          class="btn btn-secondary">Previous</button></div>
+      <div class="col-lg-3">Page {{+this.filterForm.get('currentPage').value}} of {{this.totalPages}}</div>
+      <div class="col-lg-3"><button (click)=getPage(1) [disabled]="nextDisable()" class="btn btn-secondary">Next</button>
+        <div [formGroup]='filterForm'><select formControlName="pageSize" (change)="updatePageSize()" class="form-control">
+          <option value = "3">3</option>
+          <option value = "5">5</option>
+          <option value = "10">10</option>
+          <option value = "15">15</option>
+        </select> </div>     
+      </div>
+ 
+      
+    </div>
+    <br>
+    <br>
+  </div>
+  
