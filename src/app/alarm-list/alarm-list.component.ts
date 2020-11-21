@@ -29,19 +29,23 @@ export class AlarmListComponent implements OnInit {
       currentPage: new FormControl('1'),
       pageSize: new FormControl('5')
     });
+
     this.applyFilter();
   }
 
   applyFilter(){
     let queryString: string= this.buildQueryString();
-
     this.service.getAlarmCollection(queryString).subscribe(res => {
       this.alarmsCollection = res['alarms'];
+       this.alarmsCollection.sort((a, b) => {
+        return <any>new Date(b.creationTime) - <any>new Date(a.creationTime);
+      });
       this.total = res['statistics']['count'];
       this.totalPages = res['statistics']['totalPages'];
     });
 
   }
+   
 
   buildQueryString(): string{
     let queryString = '';
@@ -51,7 +55,7 @@ export class AlarmListComponent implements OnInit {
     if(this.filterForm.get('status').value !== ''){
       queryString +='status='+this.filterForm.get('status').value+'&';
     }
-    queryString += 'pageSize='+this.filterForm.get('pageSize').value+'&currentPage='+this.filterForm.get('currentPage').value;
+    queryString +='currentPage='+this.filterForm.get('currentPage').value;
     return queryString;
   }
 
@@ -68,7 +72,7 @@ export class AlarmListComponent implements OnInit {
   previousDisable(): boolean{
     return this.filterForm.get('currentPage').value == 1   
    }
- 
+  
    nextDisable(): boolean{
      return this.filterForm.get('currentPage').value == this.totalPages
    }
