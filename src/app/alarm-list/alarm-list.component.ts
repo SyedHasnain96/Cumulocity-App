@@ -98,4 +98,9 @@ export class AlarmListComponent implements OnInit {
      desiredDateString+='Z';
      return desiredDateString;
    }
+
+   search(){
+     this.filterForm.get('currentPage').setValue('1');
+     this.applyFilter();
+   }
 }

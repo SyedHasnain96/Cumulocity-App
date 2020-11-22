@@ -39,7 +39,7 @@
       </div>
       <div class="col-lg-1">
         <div style="visibility: hidden;">Filter</div>
-        <button (click)="applyFilter()" class="btn btn-primary">
+        <button (click)="search()" class="btn btn-primary">
           Search
         </button>
       </div>
@@ -72,7 +72,6 @@
           <td class="col-2">{{alarm.status | titlecase}}</td>
           <td class="col-3">{{alarm.time | date:'medium'}}</td>
         </tr>
-
       </tbody>
     </table>
     <hr>
