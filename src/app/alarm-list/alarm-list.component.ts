@@ -55,7 +55,13 @@ export class AlarmListComponent implements OnInit {
     if(this.filterForm.get('status').value !== ''){
       queryString +='status='+this.filterForm.get('status').value+'&';
     }
-    queryString +='currentPage='+this.filterForm.get('currentPage').value;
+    if(this.filterForm.get('toDate').value !== ''){
+      queryString+='toDate='+this.filterForm.get('toDate').value+'&';
+    }
+    if(this.filterForm.get('fromDate').value !== ''){
+      queryString+='fromDate='+this.filterForm.get('fromDate').value+'&';
+    }
+    queryString +='pageSize='+this.filterForm.get('pageSize').value+'&currentPage='+this.filterForm.get('currentPage').value+'&withTotalPages=true';
     return queryString;
   }
 

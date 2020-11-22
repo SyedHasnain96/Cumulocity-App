@@ -73,7 +73,8 @@
     <div class="row justify-content-center">
       <div class="col-1"><button (click)=getPage(-1) [disabled]="previousDisable()"
           class="btn btn-prev">&lt;</button></div>
-      <div class="col-1"><button (click)=getPage(1) [disabled]="nextDisable()" class="btn btn-next">&gt;</button>
+      <div class="col-1">{{this.filterForm.get('currentPage').value}} of {{this.totalPages}}</div>
+       <div class="col-1"><button (click)=getPage(1) [disabled]="nextDisable()" class="btn btn-next">&gt;</button>
        </div>     
     </div>
     <br>
