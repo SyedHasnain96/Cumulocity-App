@@ -23,24 +23,30 @@
           <option value = "INACTIVE">Inactive</option>
         </select> 
       </div>
-      <div class="col-lg-2">
+      <div class="col-lg-3">
         <label>From Date</label>
-        <input formControlName="fromDate"
+        <input formControlName="dateFrom"
         class="form-control"
         type="datetime-local"
         placeholder="dd.mm.yyyy">
       </div>
-      <div class="col-lg-2">
+      <div class="col-lg-3">
         <label>To Date</label>
-        <input formControlName="toDate"
+        <input formControlName="dateTo"
         class="form-control"
         type="datetime-local"
         placeholder="dd.mm.yyyy">
       </div>
-      <div class="col-lg-2">
+      <div class="col-lg-1">
         <div style="visibility: hidden;">Filter</div>
         <button (click)="applyFilter()" class="btn btn-primary">
           Search
+        </button>
+      </div>
+      <div class="col-lg-1">
+        <div style="visibility: hidden;">Clear</div>
+        <button (click)="clearFilter()" class="btn btn-secondary">
+          Clear
         </button>
       </div>
       <br>
@@ -55,27 +61,35 @@
           <th class="col-5">Description</th>
           <th class="col-2">Severity</th>
           <th class="col-2">Status</th>
-          <th class="col-3">Creation Time</th>
+          <th class="col-3">Time</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody class="scrollable">
     
         <tr class="d-flex" *ngFor="let alarm of this.alarmsCollection;">
           <td class="col-5">{{alarm.text}}</td>
-          <td class="col-2">{{alarm.severity}}</td>
-          <td class="col-2">{{alarm.status}}</td>
-          <td class="col-3">{{alarm.creationTime | date:'medium'}}</td>
+          <td class="col-2">{{alarm.severity | titlecase}}</td>
+          <td class="col-2">{{alarm.status | titlecase}}</td>
+          <td class="col-3">{{alarm.time | date:'medium'}}</td>
         </tr>
 
       </tbody>
     </table>
     <hr>
-    <div class="row justify-content-center">
+    <div class="row justify-content-end">
       <div class="col-1"><button (click)=getPage(-1) [disabled]="previousDisable()"
           class="btn btn-prev">&lt;</button></div>
       <div class="col-1">{{this.filterForm.get('currentPage').value}} of {{this.totalPages}}</div>
        <div class="col-1"><button (click)=getPage(1) [disabled]="nextDisable()" class="btn btn-next">&gt;</button>
-       </div>     
+       </div>    
+       <div class="col-2 form-inline" [formGroup]="filterForm">
+         <label class="mr-2">Page Size</label>
+        <select formControlName="pageSize" class="form-control" (change)="updatePageSize()">
+          <option value = "3">3</option>
+          <option value = "5">5</option>
+          <option value = "10">10</option>
+        </select> 
+       </div> 
     </div>
     <br>
     <br>

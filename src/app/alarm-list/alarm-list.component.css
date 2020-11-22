@@ -6,3 +6,8 @@
     background-color:#343a40;
     color:white;
 }
+.scrollable{
+    height:400px;
+    display: block;
+    overflow-y: scroll;
+}

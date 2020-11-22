@@ -6,8 +6,7 @@ import { AppComponent } from './app.component';
 import { AlarmListComponent } from './alarm-list/alarm-list.component';
 import { AlarmItemComponent } from './alarm-item/alarm-item.component';
 import { HttpClientModule } from '@angular/common/http';
-// import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
-// import { Observable } from 'rxjs';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -20,9 +19,8 @@ import { HttpClientModule } from '@angular/common/http';
     AppRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
-    // BsDatepickerModule.forRoot()
   ],
-  providers: [],
+  providers: [DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

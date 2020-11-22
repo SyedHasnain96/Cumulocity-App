@@ -2,6 +2,7 @@ import { AlarmService } from './../alarm.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { stringify } from 'querystring';
+import { DatePipe } from '@angular/common';
 
 
 @Component({
@@ -18,14 +19,14 @@ export class AlarmListComponent implements OnInit {
   filter = false;
 
 
-  constructor(private service: AlarmService) {}
+  constructor(private service: AlarmService, private datepipe: DatePipe) {}
 
   ngOnInit() {
     this.filterForm = new FormGroup({
       status: new FormControl(''),
       severity: new FormControl(''),
-      fromDate: new FormControl(''),
-      toDate: new FormControl(''),
+      dateFrom: new FormControl(''),
+      dateTo: new FormControl(''),
       currentPage: new FormControl('1'),
       pageSize: new FormControl('5')
     });
@@ -46,6 +47,12 @@ export class AlarmListComponent implements OnInit {
 
   }
    
+  clearFilter(){
+    this.filterForm.get('status').setValue('');
+    this.filterForm.get('severity').setValue('');
+    this.filterForm.get('dateTo').setValue('');
+    this.filterForm.get('dateFrom').setValue('');
+  }
 
   buildQueryString(): string{
     let queryString = '';
@@ -55,11 +62,13 @@ export class AlarmListComponent implements OnInit {
     if(this.filterForm.get('status').value !== ''){
       queryString +='status='+this.filterForm.get('status').value+'&';
     }
-    if(this.filterForm.get('toDate').value !== ''){
-      queryString+='toDate='+this.filterForm.get('toDate').value+'&';
+    if(this.filterForm.get('dateTo').value !== ''){
+      let desiredDateTo = this.getDateString(this.filterForm.get('dateTo').value)
+      queryString+='dateTo='+desiredDateTo+'&';
     }
-    if(this.filterForm.get('fromDate').value !== ''){
-      queryString+='fromDate='+this.filterForm.get('fromDate').value+'&';
+    if(this.filterForm.get('dateFrom').value !== ''){
+      let desiredDateFrom = this.getDateString(this.filterForm.get('dateFrom').value)
+      queryString+='dateFrom='+desiredDateFrom+'&';
     }
     queryString +='pageSize='+this.filterForm.get('pageSize').value+'&currentPage='+this.filterForm.get('currentPage').value+'&withTotalPages=true';
     return queryString;
@@ -81,5 +90,12 @@ export class AlarmListComponent implements OnInit {
   
    nextDisable(): boolean{
      return this.filterForm.get('currentPage').value == this.totalPages
+   }
+   getDateString(dateString: string): string{
+     let desiredDateString: string='';
+     let date =new Date(dateString);
+     desiredDateString =this.datepipe.transform(date,'yyyy-MM-ddTHH:mm:ss.SSS');
+     desiredDateString+='Z';
+     return desiredDateString;
    }
 }
